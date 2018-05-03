@@ -93,7 +93,7 @@
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script>
 
-        var socket = io('http://0.0.0.0',{port:8008});
+        var socket = io('http://67.205.148.77/',{port:80});
         $('#luz').click(function(){
             socket.emit('luz', "web");
             console.log("prueba");
