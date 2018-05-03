@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Starter Template - Materialize</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo center">FLISOL 2018</a>
+
+
+       </div>
+</nav>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center orange-text">Pagina de control de NODEMCU por MQTT</h1>
+
+        <br><br>
+
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="section">
+
+        <!--   Icon Section   -->
+        <div class="row">
+            <a class="white-text"  href="#">
+            <div id="luz" class="col s12 m3  z-depth-1 red">
+                <div id="luzdiv" class="icon-block">
+                    <h2 class="center"><i class="material-icons">flash_on</i></h2>
+                    <h5 class="center">Encender iluminacion</h5>
+
+                </div>
+            </div>
+            </a>
+
+            <a id="bocina" href="#" class="">
+            <div id="bocdiv"  class="col s12 m3 push-m1 z-depth-1 yellow">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text text-darken-3"><i class="material-icons">group</i></h2>
+                    <h5 class="center">Encender bocina</h5>
+
+                </div>
+            </div>
+            </a>
+
+            <div id="temp" class="col s12 m3 push-m2 green accent-2 z-depth-1">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text text-darken-3"><i class="material-icons">settings</i></h2>
+                    <h5 id="temptag" class="center light-blue-text text-darken-3">Temperatura: XX°</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+</div>
+
+<footer class="page-footer orange">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Comunidad arduino chiquimula</h5>
+                <p class="grey-text text-lighten-4">Somos un grupo de jóvenes con el deseo de aprender y compartir nuestra pasión por la electrónica en la perla de oriente Chiquimula</p>
+
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+        </div>
+    </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/init.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script>
+
+        var socket = io('http://0.0.0.0',{port:8008});
+        $('#luz').click(function(){
+            socket.emit('luz', "web");
+            console.log("prueba");
+        });
+        $('#bocina').click(function(){
+            socket.emit('bocina', "web");
+            console.log("prueba");
+        });
+        socket.on('temperatura', function(msg){
+            $("#temptag").text("Temperatura: "+msg+"°");
+        });
+        socket.on('estado1', function(msg){
+            console.log(msg);
+            if(msg=="0"){
+                $("#luz").removeClass("red");
+                $("#luz").addClass("blue-grey darken-4");
+            }else{
+                $("#luz").removeClass("blue-grey darken-4");
+                $("#luz").addClass("red");
+            }
+        });
+        socket.on('estado2', function(msg){
+            console.log(msg);
+            if(msg=="0"){
+                $("#bocdiv").removeClass("yellow");
+                $("#bocdiv").addClass("blue-grey darken-4");
+            }else{
+                $("#bocdiv").removeClass("blue-grey darken-4");
+                $("#bocdiv").addClass("yellow");
+            }
+        });
+</script>
+</body>
+</html>
